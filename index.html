@@ -11,13 +11,10 @@
 
     <script src="leaflet/leaflet.js"></script>
 
+    <!-- objects -->
     <script src="objects/coordinate.js"></script>
     <script src="objects/club.js"></script>
-
-    <script src="makeRequest.js"></script>
-    <script src="distanceTools.js"></script>
-    <script src="ligue1.js"></script>
-
+    <script src="objects/competition.js"></script>
 
     <style>
         #mapid {
@@ -40,94 +37,30 @@
         <form>
             <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
             <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+
+            <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
+            <label for="chk_france_ligue1">Ligue 1</label>
+
+            <br />
+
             <input type="button" value="Chercher" id="btnSubmitCoordinates">
         </form>
     </div>
-    <br />
+
     <div id="mapid"></div>
     <div id="teams"></div>
 </body>
 
+<!-- admin script -->
+<script src="makeRequest.js"></script>
+
+<!-- tools -->
+<script src="distanceTools.js"></script>
+
+<!-- data -->
+<!-- <script src="data/france_ligue1.js"></script> -->
+
 <script src="setupMap.js"></script>
-
-<script>
-    // random city
-    let belfort = [47.6379599, 6.8628842];
-    let geneva = [46.2044, 6.1432];
-
-    // page elements
-    const divTeams = document.getElementById("teams");
-    const inputLatitude = document.getElementById("inputLatitude");
-    const inputLongitude = document.getElementById("inputLongitude");
-    const btnSubmitCoordinates = document.getElementById("btnSubmitCoordinates");
-
-    btnSubmitCoordinates.onclick = check;
-
-
-    // setup
-    // console.log(competitions_france_ligue1);
-
-    const teams = competitions_france_ligue1.teams;
-
-    let clubs = [];
-    teams.forEach(function (team) {
-        clubs.push(
-            new Club(
-                team.name, 
-                new Coordinate(team.latitude, team.longitude, team.name)
-            )
-        );
-    });
-
-    function check() {
-        // clean
-        cleanMarkers();
-
-        // coordinates to look for
-        const currentCoordinates = getCurrentCoordinate();
-        addMarker(currentCoordinates, true);
-
-        // get the X closest clubs
-        const closestClubs = findClosestClubFromCoordinates(clubs, currentCoordinates);
-        
-        // add the markers and print the results
-        addMarkers(closestClubs);
-        printResults(closestClubs);
-    }
-
-
-    function getCurrentCoordinate() {
-        return new Coordinate(
-            inputLatitude.value, 
-            inputLongitude.value,
-            Coordinate.getDefaultDescription()
-        );
-    }
-
-
-    function addMarkers(clubs) {
-        for (let club of clubs) {
-            addMarker(club.coordinates, false);
-        }
-    }
-
-    function printResults(clubs) {
-        let result = '';
-        for (let club of clubs) {
-            result += `<b>${club.name}</b><br/>`;
-        }
-        divTeams.innerHTML = result;
-    }
-
-    function findClosestClubFromCoordinates(clubs, coordinates) {
-        return clubs.sort(function (clubA, clubB) {
-            const distanceClubA = DistanceTools.calculateDistance(clubA.coordinates, coordinates);
-            const distanceClubB = DistanceTools.calculateDistance(clubB.coordinates, coordinates);
-            return distanceClubA - distanceClubB;
-        }).slice(0, 5);
-    }
-</script>
-
-
+<script src="main.js"></script>
 
 </html>
