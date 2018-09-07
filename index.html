@@ -35,32 +35,30 @@
 
     <div>
         <form>
+            <!-- coordinates -->
             <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
             <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
 
+            <!-- competitions -->
             <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
             <label for="chk_france_ligue1">Ligue 1</label>
 
-            <br />
-
+            <!-- submit button -->
             <input type="button" value="Chercher" id="btnSubmitCoordinates">
         </form>
     </div>
+
+    <br />
 
     <div id="mapid"></div>
     <div id="teams"></div>
 </body>
 
-<!-- admin script -->
-<script src="makeRequest.js"></script>
+<!-- admin script, used to make request to the API -->
+<script src="admin.js"></script>
 
-<!-- tools -->
-<script src="distanceTools.js"></script>
-
-<!-- data -->
-<!-- <script src="data/france_ligue1.js"></script> -->
-
-<script src="setupMap.js"></script>
+<script src="tools.js"></script>
+<script src="map.js"></script>
 <script src="main.js"></script>
 
 </html>
