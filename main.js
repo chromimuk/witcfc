@@ -6,6 +6,16 @@ var App = (function () {
     function init() {
         HtmlHelper.init(onFormSubmit);
         MapHelper.init(HtmlHelper.getMapDivID());
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, onFormSubmit);
+        } else {
+            onFormSubmit();
+        }
+    }
+
+    function showPosition(position) {
+        HtmlHelper.setCurrentCoordinates(position.coords.latitude, position.coords.longitude);
         onFormSubmit();
     }
 
@@ -48,9 +58,8 @@ var App = (function () {
 
         let teams = [];
         _competitions.forEach(competition => {
-            
-            switch(competition)
-            {
+
+            switch (competition) {
                 case Competitions.France_Ligue1:
                     teams = teams.concat(competitions_france_ligue1.teams);
                     break;

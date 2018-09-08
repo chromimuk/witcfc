@@ -121,13 +121,17 @@ var HtmlHelper = (function () {
         return 'mapid';
     }
 
-
     function getCurrentCoordinates() {
         return new Coordinate(
             inputLatitude.value,
             inputLongitude.value,
             Coordinate.getDefaultDescription()
         );
+    }
+
+    function setCurrentCoordinates(latitude, longitude) {
+        inputLatitude.value = latitude;
+        inputLongitude.value = longitude;
     }
 
     function getSelectedCompetitions() {
@@ -167,6 +171,7 @@ var HtmlHelper = (function () {
         init: init,
         getMapDivID: getMapDivID,
         getCurrentCoordinates: getCurrentCoordinates,
+        setCurrentCoordinates: setCurrentCoordinates,
         getSelectedCompetitions: getSelectedCompetitions,
         printClubs: printClubs
     };

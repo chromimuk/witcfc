@@ -23,6 +23,11 @@ input {
     height: 500px;
 }
 
+.formBox {
+    width: 50%;
+    float: left;
+    margin-bottom: 10px;
+}
 
 .formTitle {
     font-size: 1.25rem;
@@ -55,5 +60,9 @@ input {
     #teams .teamCard {
         width: 100%;
         margin-bottom: 10px;
+    }
+
+    .formBox {
+        width: 100%;
     }
 }
