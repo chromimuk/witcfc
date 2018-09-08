@@ -1,17 +1,16 @@
 var App = (function () {
 
+    const maxTeams = 5;
+
+
     // meh
     let _competitions = [];
 
     function init() {
-        HtmlHelper.init(onFormSubmit);
+        HtmlHelper.init(onFormSubmit, Tools.tryToGeoLoc, maxTeams);
         MapHelper.init(HtmlHelper.getMapDivID());
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, onFormSubmit);
-        } else {
-            onFormSubmit();
-        }
+        
+        Tools.tryToGeoLoc(showPosition, onFormSubmit);
     }
 
     function showPosition(position) {
@@ -89,7 +88,7 @@ var App = (function () {
             const distanceClubA = DistanceTools.calculateDistance(clubA.coordinates, coordinates);
             const distanceClubB = DistanceTools.calculateDistance(clubB.coordinates, coordinates);
             return distanceClubA - distanceClubB;
-        }).slice(0, 5);
+        }).slice(0, maxTeams);
     }
 
     return {

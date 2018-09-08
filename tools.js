@@ -1,5 +1,19 @@
 var Tools = (function () {
 
+    function tryToGeoLoc(callbackSuccess, callbackFail) {
+        
+        console.log(callbackSuccess, callbackFail);
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(callbackSuccess, callbackFail);
+        } else {
+            callbackFail();
+        }
+    }
+
+    return {
+        tryToGeoLoc: tryToGeoLoc
+    }
 })();
 
 
@@ -76,13 +90,11 @@ var LazyLoadingTools = (function () {
             onCompetitionScriptsLoadedCallback();
     }
 
-    function setCompetitionsCount(count)
-    {
+    function setCompetitionsCount(count) {
         competitionsCount = count;
     }
 
-    function setOnCompetitionScriptsLoadedCallback(callback)
-    {
+    function setOnCompetitionScriptsLoadedCallback(callback) {
         onCompetitionScriptsLoadedCallback = callback;
     }
 
@@ -96,25 +108,38 @@ var LazyLoadingTools = (function () {
 
 var HtmlHelper = (function () {
 
-    const maxTeams = 5;
-    
+    let _maxTeams = 0;
+
     // coordinates
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
+    const btnGeoLoc = document.getElementById("btnGeoLoc");
 
     // competitions
     const chk_France_ligue1 = document.getElementById("chk_france_ligue1");
     const chk_Spain_primeraDivision = document.getElementById("chk_spain_primeraDivision");
 
-    // "result"
-    const divTeams = document.getElementById("teams");
 
+    function init(callbackOnSubmit, callbackGeoLoc, maxTeams) {
+        
+        _maxTeams = maxTeams;
 
-    function init(callbackOnSubmit) {
+        // form fields
         inputLatitude.onchange = callbackOnSubmit;
         inputLongitude.onchange = callbackOnSubmit;
         chk_France_ligue1.onchange = callbackOnSubmit;
         chk_Spain_primeraDivision.onchange = callbackOnSubmit;
+
+        // geoloc button
+        btnGeoLoc.onclick = function() {
+            callbackGeoLoc(
+                function(position) { 
+                    setCurrentCoordinates(position.coords.latitude, position.coords.longitude);
+                    callbackOnSubmit();
+                },
+                callbackOnSubmit
+            );
+        };
     };
 
     function getMapDivID() {
@@ -149,18 +174,16 @@ var HtmlHelper = (function () {
     }
 
     function printClubs(clubs) {
-        if (maxTeams !== clubs.length)
+        if (_maxTeams !== clubs.length)
             throw new Error('maxTeams !== clubs.length');
-        
+
         let divClubName, divClubCompetition, divClubWebsite, club;
-        for (let i=1; i<=maxTeams; i++)
-        {
+        for (let i = 1; i <= _maxTeams; i++) {
             divClubName = document.getElementById(`team_${i}_name`);
             divClubCompetition = document.getElementById(`team_${i}_competition`);
             divClubWebsite = document.getElementById(`team_${i}_website`);
 
-            club = clubs[i-1];
-
+            club = clubs[i - 1];
             divClubName.innerText = club.name;
             divClubCompetition.innerText = club.competition;
             divClubWebsite.innerHTML = `<a href="${club.website}">${club.website}</a>`;
