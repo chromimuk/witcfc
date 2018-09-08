@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>WITCFC</title>
 
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="leaflet/leaflet.css">
 
     <script src="leaflet/leaflet.js"></script>
@@ -15,49 +16,6 @@
     <script src="objects/coordinate.js"></script>
     <script src="objects/club.js"></script>
     <script src="objects/competition.js"></script>
-
-    <style>
-
-        html, body {
-            font-family: "Segoe UI", Helvetica, Arial;
-            color: #333;
-            height: 100%;
-            margin: 0;
-        }
-
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        input {
-            border: 1px solid rgba(0,0,0,.125);
-            padding: 5px;
-        }
-
-        .content {
-            padding: 10px;
-        }
-        
-        #mapid {
-            height: 500px;
-        }
-
-        #teams {
-            padding: 5px;
-        }
-
-        #teams .teamCard {
-            width: 19%;
-            float: left;
-            box-sizing: border-box;
-            border: 1px solid rgba(0,0,0,.125);
-            padding: 5px;
-            margin-right: 1%;
-        }
-
-    </style>
-
 </head>
 
 <body>
@@ -70,34 +28,60 @@
             <form>
 
                 <!-- coordinates -->
-                <div class="form--coordinates">
-                    <b>Position</b> <br />
-                    <label for="latitude">Latitude</label>
-                    <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
-                    <label for="longitude">Longitude</label>
-                    <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+                <div>
+                    <div class="formTitle">Position</div>
+
+                    <div>
+                        <label for="latitude">Latitude</label>
+                        <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
+                        <label for="longitude">Longitude</label>
+                        <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+
+                    </div>
 
                     <b>ou</b>
 
-                    <label for="address">Adresse</label>
-                    <input type="text" readonly="readonly" name="address" id="address" placeholder="Genève">
+                    <div>
+                        <label for="address">Adresse</label>
+                        <input type="text" readonly="readonly" name="address" id="address" placeholder="Genève">
+                    </div>
                 </div>
 
                 <br />
 
                 <!-- competitions -->
-                <div class="form--competitions">
-                    <b>Compétitions</b> <br />
-                    <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
-                    <label for="chk_france_ligue1">Ligue 1</label>
-                    <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision" checked="checked">
-                    <label for="chk_spain_primeraDivision">Primera Division</label>
+                <div>
+                    <div class="formTitle">Compétitions</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>🇫🇷 France</th>
+                                    <th>🇪🇸 Espagne</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
+                                        <label for="chk_france_ligue1">Ligue 1</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision"
+                                            checked="checked">
+                                        <label for="chk_spain_primeraDivision">Primera Division</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </form>
         </div>
 
         <br />
 
+        <div class="formTitle">Clubs les plus proches</div>
         <div id="teams">
             <div class="teamCard" id="team_1">
                 <div class="teamName" id="team_1_name"></div>

@@ -157,8 +157,8 @@ var HtmlHelper = (function () {
 
             club = clubs[i-1];
 
-            divClubName.innerHTML = `<b>${club.name}</b>`;
-            divClubCompetition.innerHTML = `${club.competition}`;
+            divClubName.innerText = club.name;
+            divClubCompetition.innerText = club.competition;
             divClubWebsite.innerHTML = `<a href="${club.website}">${club.website}</a>`;
         }
     }
