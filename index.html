@@ -24,19 +24,23 @@
 
     <div class="content">
 
-        <div>
-            <form>
+        <div class="title">Options de recherche</div>
 
+        <div class="form">
+            <form>
                 <!-- coordinates -->
                 <div class="formBox">
-                    <div class="formTitle">Position</div>
+
+                    <div class="formTitle">
+                        Position 
+                        <button type="button" class="discreteButton" id="btnGeoLoc">Me géolocaliser</button>
+                    </div>
 
                     <div>
                         <label for="latitude">Latitude</label>
                         <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
                         <label for="longitude">Longitude</label>
                         <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
-                        <button type="button" id="btnGeoLoc">Me géolocaliser</button>
                     </div>
 
                     <b>ou</b>
@@ -75,11 +79,13 @@
                     </div>
                 </div>
             </form>
+            <div class="clear"></div>
         </div>
 
         <br />
 
-        <div class="formTitle">Clubs les plus proches</div>
+        <div class="title">Clubs les plus proches</div>
+
         <div id="teams">
             <div class="teamCard" id="team_1">
                 <div class="teamName" id="team_1_name"></div>

@@ -2,6 +2,8 @@ var App = (function () {
 
     const maxTeams = 5;
 
+    const tryToGeoLocAtInit = false;
+
 
     // meh
     let _competitions = [];
@@ -10,7 +12,13 @@ var App = (function () {
         HtmlHelper.init(onFormSubmit, Tools.tryToGeoLoc, maxTeams);
         MapHelper.init(HtmlHelper.getMapDivID());
         
-        Tools.tryToGeoLoc(showPosition, onFormSubmit);
+        if (tryToGeoLocAtInit === true)
+        {
+            Tools.tryToGeoLoc(showPosition, onFormSubmit);
+        }
+        else {
+            onFormSubmit();
+        }
     }
 
     function showPosition(position) {
