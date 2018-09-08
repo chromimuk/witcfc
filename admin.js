@@ -15,7 +15,7 @@ function doRequest() {
 
     xhr.open(
         "GET",
-        "https://api.football-data.org/v2/competitions/2015/teams",
+        "https://api.football-data.org/v2/competitions/2014/teams",
         true
     );
 

@@ -15,10 +15,12 @@ var App = (function () {
         // get selected competitions form the form
         _competitions = HtmlHelper.getSelectedCompetitions();
 
+        LazyLoadingTools.setCompetitionsCount(_competitions.length);
+        LazyLoadingTools.setOnCompetitionScriptsLoadedCallback(onCompetitionScriptLoaded);
+
         // load competitions scripts
         for (let competition of _competitions) {
-            // todo: should call onCompetitionScriptLoaded only when all the scripts are loaded!
-            LazyLoadingTools.loadScript(competition, onCompetitionScriptLoaded);
+            LazyLoadingTools.loadScript(competition);
         }
     }
 
@@ -45,8 +47,15 @@ var App = (function () {
 
         let teams = [];
         _competitions.forEach(competition => {
-            if (competition === Competitions.France_Ligue1) {
-                teams = teams.concat(competitions_france_ligue1.teams);
+            
+            switch(competition)
+            {
+                case Competitions.France_Ligue1:
+                    teams = teams.concat(competitions_france_ligue1.teams);
+                    break;
+                case Competitions.Spain_PrimeraDivision:
+                    teams = teams.concat(competitions_spain_primeraDivision.teams);
+                    break;
             }
         });
 

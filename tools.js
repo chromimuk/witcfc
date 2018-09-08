@@ -9,7 +9,7 @@ var DistanceTools = (function () {
         return calcCrow(
             pointA.getCoordinates()[0],
             pointA.getCoordinates()[1],
-            pointB.getCoordinates()[0], 
+            pointB.getCoordinates()[0],
             pointB.getCoordinates()[1]
         );
     }
@@ -44,39 +44,52 @@ var DistanceTools = (function () {
 
 
 var LazyLoadingTools = (function () {
-    
-    let scriptsLoaded = [];
 
-    function loadScript(url, completedCallback) {
-        
-        if (scriptsLoaded.indexOf(url) > -1) 
-        {
-            completedCallback();
+    let scriptsLoaded = [];
+    let competitionsCount;
+    let onCompetitionScriptsLoadedCallback;
+
+    function loadScript(url) {
+
+        if (scriptsLoaded.indexOf(url) > -1) {
+            scriptLoaded();
             return;
         }
-    
+
         const head = document.getElementsByTagName('head')[0];
         let script = document.createElement("script");
         script.src = url;
-        script.onload = completedCallback;
+        script.onload = scriptLoaded;
         script.onreadystatechange = function () {
             if (this.readyState == 'complete') {
-                completedCallback();
+                scriptLoaded();
             }
         };
-        
+
         head.appendChild(script);
         scriptsLoaded.push(url);
     }
 
-    // function scriptLoaded() {
-    //     count++;
-    //     if (count === competitions.length)
-    //         continueSetup();
-    // }
+    function scriptLoaded() {
+        competitionsCount--;
+        if (competitionsCount === 0)
+            onCompetitionScriptsLoadedCallback();
+    }
+
+    function setCompetitionsCount(count)
+    {
+        competitionsCount = count;
+    }
+
+    function setOnCompetitionScriptsLoadedCallback(callback)
+    {
+        onCompetitionScriptsLoadedCallback = callback;
+    }
 
     return {
-        loadScript: loadScript
+        loadScript: loadScript,
+        setCompetitionsCount: setCompetitionsCount,
+        setOnCompetitionScriptsLoadedCallback: setOnCompetitionScriptsLoadedCallback
     };
 })();
 
@@ -86,10 +99,11 @@ var HtmlHelper = (function () {
     // coordinates
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
-    
+
     // competitions
     const chk_France_ligue1 = document.getElementById("chk_france_ligue1");
-    
+    const chk_Spain_primeraDivision = document.getElementById("chk_spain_primeraDivision");
+
     // submit button
     const btnSubmitCoordinates = document.getElementById("btnSubmitCoordinates");
 
@@ -116,11 +130,15 @@ var HtmlHelper = (function () {
 
     function getSelectedCompetitions() {
         let _competitions = [];
-    
+
         if (chk_France_ligue1.checked === true) {
             _competitions.push(Competitions.France_Ligue1);
         }
-    
+
+        if (chk_Spain_primeraDivision.checked === true) {
+            _competitions.push(Competitions.Spain_PrimeraDivision);
+        }
+
         return _competitions;
     }
 
@@ -139,5 +157,5 @@ var HtmlHelper = (function () {
         getSelectedCompetitions: getSelectedCompetitions,
         printClubs: printClubs
     };
-    
+
 })();

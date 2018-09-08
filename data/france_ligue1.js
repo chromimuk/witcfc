@@ -1,8 +1,3 @@
-function tmp() {
-    console.log('yo');
-}
-
-
 const competitions_france_ligue1 = {
     "count": 20,
     "filters": {},
