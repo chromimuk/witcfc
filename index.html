@@ -29,7 +29,7 @@
         <div class="form">
             <form>
                 <!-- coordinates -->
-                <div class="formBox">
+                <div class="formBox formBox-position">
 
                     <div class="formTitle">
                         Position
@@ -52,23 +52,23 @@
                 </div>
 
                 <!-- competitions -->
-                <div class="formBox">
+                <div class="formBox formBox-competition">
                     <div class="formTitle">Compétitions</div>
                     <div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>🇫🇷 France</th>
                                     <th>🇩🇪 Allemagne</th>
                                     <th>🇪🇸 Espagne</th>
+                                    <th>🇫🇷 France</th>
+                                    <th>🇬🇧 Grande-Bretagne</th>
+                                    <th>🇮🇹 Italie</th>
+                                    <th>🇳🇱 Pays-Bas</th>
+                                    <th>🇵🇹 Portugal</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
-                                        <label for="chk_france_ligue1">Ligue 1</label>
-                                    </td>
                                     <td>
                                         <input type="checkbox" name="chk_germany_bundesliga" id="chk_germany_bundesliga"
                                             checked="checked">
@@ -77,7 +77,27 @@
                                     <td>
                                         <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision"
                                             checked="checked">
-                                        <label for="chk_spain_primeraDivision">Primera Division</label>
+                                        <label for="chk_spain_primeraDivision">La Liga</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
+                                        <label for="chk_france_ligue1">Ligue 1</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_gb_premierLeague" id="chk_gb_premierLeague" disabled="disabled">
+                                        <label for="chk_gb_premierLeague">Premier League</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_italy_serieA" id="chk_italy_serieA" disabled="disabled">
+                                        <label for="chk_italy_serieA">Serie A</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_netherlands_eredivisie" id="chk_netherlands_eredivisie" disabled="disabled">
+                                        <label for="chk_netherlands_eredivisie">Eredivisie</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_portugal_primeiraLiga" id="chk_portugal_primeiraLiga" disabled="disabled">
+                                        <label for="chk_france_ligue1">Primeira Liga</label>
                                     </td>
                                 </tr>
                             </tbody>

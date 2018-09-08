@@ -54,6 +54,20 @@ input {
     margin-bottom: 10px;
 }
 
+.formBox-position {
+    width: 30%;
+}
+
+.formBox-competition {
+    width: 70%;
+}
+
+.formBox-competition table {
+    width: 100%;
+}
+
+
+
 .formTitle {
     font-size: 1.15rem;
     color: rgb(33, 37, 41);
@@ -78,7 +92,7 @@ input {
     color: rgb(33, 37, 41);
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1200px) {
     #teams .teamCard {
         width: 100%;
         margin-bottom: 10px;
