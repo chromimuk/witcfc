@@ -32,7 +32,7 @@
                 <div class="formBox">
 
                     <div class="formTitle">
-                        Position 
+                        Position
                         <button type="button" class="discreteButton" id="btnGeoLoc">Me géolocaliser</button>
                     </div>
 
@@ -59,6 +59,7 @@
                             <thead>
                                 <tr>
                                     <th>🇫🇷 France</th>
+                                    <th>🇩🇪 Allemagne</th>
                                     <th>🇪🇸 Espagne</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,11 @@
                                     <td>
                                         <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
                                         <label for="chk_france_ligue1">Ligue 1</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="chk_germany_bundesliga" id="chk_germany_bundesliga"
+                                            checked="checked">
+                                        <label for="chk_germany_bundesliga">Bundesliga</label>
                                     </td>
                                     <td>
                                         <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision"
@@ -117,9 +123,6 @@
     </div>
 
 </body>
-
-<!-- admin script, used to make request to the API -->
-<script src="admin.js"></script>
 
 <script src="tools.js"></script>
 <script src="map.js"></script>

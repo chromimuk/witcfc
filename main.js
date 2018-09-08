@@ -73,6 +73,9 @@ var App = (function () {
                 case Competitions.Spain_PrimeraDivision:
                     teams = teams.concat(competitions_spain_primeraDivision.teams);
                     break;
+                case Competitions.Germany_Bundesliga:
+                    teams = teams.concat(competitions_germany_bundesliga.teams);
+                    break;
             }
         });
 
