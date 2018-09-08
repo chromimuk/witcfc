@@ -96,6 +96,8 @@ var LazyLoadingTools = (function () {
 
 var HtmlHelper = (function () {
 
+    const maxTeams = 5;
+    
     // coordinates
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
@@ -104,15 +106,15 @@ var HtmlHelper = (function () {
     const chk_France_ligue1 = document.getElementById("chk_france_ligue1");
     const chk_Spain_primeraDivision = document.getElementById("chk_spain_primeraDivision");
 
-    // submit button
-    const btnSubmitCoordinates = document.getElementById("btnSubmitCoordinates");
-
     // "result"
     const divTeams = document.getElementById("teams");
 
 
     function init(callbackOnSubmit) {
-        btnSubmitCoordinates.onclick = callbackOnSubmit;
+        inputLatitude.onchange = callbackOnSubmit;
+        inputLongitude.onchange = callbackOnSubmit;
+        chk_France_ligue1.onchange = callbackOnSubmit;
+        chk_Spain_primeraDivision.onchange = callbackOnSubmit;
     };
 
     function getMapDivID() {
@@ -143,11 +145,22 @@ var HtmlHelper = (function () {
     }
 
     function printClubs(clubs) {
-        let result = '';
-        for (let club of clubs) {
-            result += `<b>${club.name}</b><br/>`;
+        if (maxTeams !== clubs.length)
+            throw new Error('maxTeams !== clubs.length');
+        
+        let divClubName, divClubCompetition, divClubWebsite, club;
+        for (let i=1; i<=maxTeams; i++)
+        {
+            divClubName = document.getElementById(`team_${i}_name`);
+            divClubCompetition = document.getElementById(`team_${i}_competition`);
+            divClubWebsite = document.getElementById(`team_${i}_website`);
+
+            club = clubs[i-1];
+
+            divClubName.innerHTML = `<b>${club.name}</b>`;
+            divClubCompetition.innerHTML = `${club.competition}`;
+            divClubWebsite.innerHTML = `<a href="${club.website}">${club.website}</a>`;
         }
-        divTeams.innerHTML = result;
     }
 
     return {

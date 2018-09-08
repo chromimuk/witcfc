@@ -6,6 +6,7 @@ var App = (function () {
     function init() {
         HtmlHelper.init(onFormSubmit);
         MapHelper.init(HtmlHelper.getMapDivID());
+        onFormSubmit();
     }
 
     function onFormSubmit() {
@@ -64,7 +65,9 @@ var App = (function () {
             clubs.push(
                 new Club(
                     team.name,
-                    new Coordinate(team.latitude, team.longitude, team.name)
+                    new Coordinate(team.latitude, team.longitude, team.name),
+                    '', // competition
+                    team.website
                 )
             );
         });

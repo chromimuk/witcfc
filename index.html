@@ -17,43 +17,117 @@
     <script src="objects/competition.js"></script>
 
     <style>
+
+        html, body {
+            font-family: "Segoe UI", Helvetica, Arial;
+            color: #333;
+            height: 100%;
+            margin: 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        input {
+            border: 1px solid rgba(0,0,0,.125);
+            padding: 5px;
+        }
+
+        .content {
+            padding: 10px;
+        }
+        
         #mapid {
             height: 500px;
-            width: 50%;
-            float: left;
         }
 
         #teams {
-            width: 50%;
-            float: left;
+            padding: 5px;
         }
+
+        #teams .teamCard {
+            width: 19%;
+            float: left;
+            box-sizing: border-box;
+            border: 1px solid rgba(0,0,0,.125);
+            padding: 5px;
+            margin-right: 1%;
+        }
+
     </style>
 
 </head>
 
 <body>
 
-    <div>
-        <form>
-            <!-- coordinates -->
-            <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
-            <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+    <div id="mapid"></div>
 
-            <!-- competitions -->
-            <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
-            <label for="chk_france_ligue1">Ligue 1</label>
-            <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision" checked="checked">
-            <label for="chk_spain_primeraDivision">Primera Division</label>
+    <div class="content">
 
-            <!-- submit button -->
-            <input type="button" value="Chercher" id="btnSubmitCoordinates">
-        </form>
+        <div>
+            <form>
+
+                <!-- coordinates -->
+                <div class="form--coordinates">
+                    <b>Position</b> <br />
+                    <label for="latitude">Latitude</label>
+                    <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+
+                    <b>ou</b>
+
+                    <label for="address">Adresse</label>
+                    <input type="text" readonly="readonly" name="address" id="address" placeholder="Genève">
+                </div>
+
+                <br />
+
+                <!-- competitions -->
+                <div class="form--competitions">
+                    <b>Compétitions</b> <br />
+                    <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
+                    <label for="chk_france_ligue1">Ligue 1</label>
+                    <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision" checked="checked">
+                    <label for="chk_spain_primeraDivision">Primera Division</label>
+                </div>
+            </form>
+        </div>
+
+        <br />
+
+        <div id="teams">
+            <div class="teamCard" id="team_1">
+                <div class="teamName" id="team_1_name"></div>
+                <div class="teamCompetition" id="team_1_competition"></div>
+                <div class="teamWebsite" id="team_1_website"></div>
+            </div>
+            <div class="teamCard" id="team_2">
+                <div class="teamName" id="team_2_name"></div>
+                <div class="teamCompetition" id="team_2_competition"></div>
+                <div class="teamWebsite" id="team_2_website"></div>
+            </div>
+            <div class="teamCard" id="team_3">
+                <div class="teamName" id="team_3_name"></div>
+                <div class="teamCompetition" id="team_3_competition"></div>
+                <div class="teamWebsite" id="team_3_website"></div>
+            </div>
+            <div class="teamCard" id="team_4">
+                <div class="teamName" id="team_4_name"></div>
+                <div class="teamCompetition" id="team_4_competition"></div>
+                <div class="teamWebsite" id="team_4_website"></div>
+            </div>
+            <div class="teamCard" id="team_5">
+                <div class="teamName" id="team_5_name"></div>
+                <div class="teamCompetition" id="team_5_competition"></div>
+                <div class="teamWebsite" id="team_5_website"></div>
+            </div>
+        </div>
+
     </div>
 
-    <br />
-
-    <div id="mapid"></div>
-    <div id="teams"></div>
 </body>
 
 <!-- admin script, used to make request to the API -->
