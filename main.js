@@ -66,7 +66,6 @@ var App = (function () {
 
         let teams = [];
         _competitions.forEach(competition => {
-
             switch (competition) {
                 case Competitions.France_Ligue1:
                     teams = teams.concat(competitions_france_ligue1.teams);
@@ -79,6 +78,9 @@ var App = (function () {
                     break;
                 case Competitions.England_PremierLeague:
                     teams = teams.concat(competitions_england_premierLeague.teams);
+                    break;
+                case Competitions.Italy_SerieA:
+                    teams = teams.concat(competitions_italy_serieA.teams);
                     break;
             }
         });
