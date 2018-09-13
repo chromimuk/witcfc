@@ -20,7 +20,9 @@
 
 <body>
 
-    <div id="mapid"></div>
+    <div>
+        <div id="mapid"></div>
+    </div>
 
     <div class="content">
 
@@ -37,10 +39,15 @@
                     </div>
 
                     <div>
-                        <label for="latitude">Latitude</label>
-                        <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
-                        <label for="longitude">Longitude</label>
-                        <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+                        <div class="divCoordinates">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
+                        </div>
+                        <div class="clear"></div>
+                        <div class="divCoordinates">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+                        </div>
                     </div>
 
                     <b>ou</b>
@@ -54,7 +61,7 @@
                 <!-- competitions -->
                 <div class="formBox formBox-competition">
                     <div class="formTitle">Compétitions</div>
-                    <div>
+                    <div class="divCompetitionTable">
                         <table>
                             <thead>
                                 <tr>
@@ -84,7 +91,8 @@
                                         <label for="chk_france_ligue1">Ligue 1</label>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="chk_gb_premierLeague" id="chk_gb_premierLeague" checked="checked">
+                                        <input type="checkbox" name="chk_gb_premierLeague" id="chk_gb_premierLeague"
+                                            checked="checked">
                                         <label for="chk_gb_premierLeague">Premier League</label>
                                     </td>
                                     <td>

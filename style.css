@@ -40,6 +40,7 @@ input {
 
 #mapid {
     height: 500px;
+    background-color: rgba(0, 0, 0, .125);
 }
 
 .form {
@@ -66,7 +67,9 @@ input {
     width: 100%;
 }
 
-
+.divCoordinates {
+    display: inline-block;
+}
 
 .formTitle {
     font-size: 1.15rem;
@@ -96,9 +99,56 @@ input {
     #teams .teamCard {
         width: 100%;
         margin-bottom: 10px;
+        margin-right: 0%;
     }
 
     .formBox {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    
+    table {
+        table-layout: fixed;
+        font-size: 0.8em;
+    }
+
+    table td, table th {
+        width: 125px;
+    }
+
+    table th { 
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .content {
+        padding: 5px;
+    }
+
+    .divCompetitionTable {
+        overflow: scroll;
+    }
+
+    .divCoordinates {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .divCoordinates input {
+        float: right;
+    }
+
+    #address, #nbShownClubs {
+        width: 95%; /* hack :( */
+    }
+
+    #teams {
+        padding: 0;
+    }
+
+    #mapid {
+        width: 99.999%;
     }
 }
