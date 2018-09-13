@@ -119,6 +119,7 @@ var HtmlHelper = (function () {
     const chk_France_ligue1 = document.getElementById("chk_france_ligue1");
     const chk_Spain_primeraDivision = document.getElementById("chk_spain_primeraDivision");
     const chk_Germany_bundesliga = document.getElementById("chk_germany_bundesliga");
+    const chk_England_premierLeague = document.getElementById("chk_gb_premierLeague");
 
 
     function init(callbackOnSubmit, callbackGeoLoc, maxTeams) {
@@ -131,6 +132,7 @@ var HtmlHelper = (function () {
         chk_France_ligue1.onchange = callbackOnSubmit;
         chk_Spain_primeraDivision.onchange = callbackOnSubmit;
         chk_Germany_bundesliga.onchange = callbackOnSubmit;
+        chk_England_premierLeague.onchange = callbackOnSubmit;
 
         // geoloc button
         btnGeoLoc.onclick = function() {
@@ -174,6 +176,10 @@ var HtmlHelper = (function () {
 
         if (chk_Germany_bundesliga.checked === true) {
             _competitions.push(Competitions.Germany_Bundesliga);
+        }
+
+        if (chk_England_premierLeague.checked === true) {
+            _competitions.push(Competitions.England_PremierLeague);
         }
 
         return _competitions;

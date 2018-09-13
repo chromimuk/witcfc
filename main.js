@@ -30,7 +30,7 @@ var App = (function () {
         // remove all markers on the map
         MapHelper.cleanMarkers();
 
-        // get selected competitions form the form
+        // get selected competitions from the form
         _competitions = HtmlHelper.getSelectedCompetitions();
 
         LazyLoadingTools.setCompetitionsCount(_competitions.length);
@@ -75,6 +75,9 @@ var App = (function () {
                     break;
                 case Competitions.Germany_Bundesliga:
                     teams = teams.concat(competitions_germany_bundesliga.teams);
+                    break;
+                case Competitions.England_PremierLeague:
+                    teams = teams.concat(competitions_england_premierLeague.teams);
                     break;
             }
         });
