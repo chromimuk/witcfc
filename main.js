@@ -92,7 +92,8 @@ var App = (function () {
                     team.name,
                     new Coordinate(team.latitude, team.longitude, team.name),
                     '', // competition
-                    team.website
+                    team.website,
+                    team.crestUrl
                 )
             );
         });

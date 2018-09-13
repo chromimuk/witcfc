@@ -247,35 +247,45 @@ var HtmlHelper = (function () {
     //     </div>
     // </div>
     function getClubCard(index, club) {
-        const clubName = club.name;
-        const clubCompetition = club.competition;
-        const clubWebsite = club.website;
 
         let teamCard = document.createElement('div');
         teamCard.className = "teamCard";
         teamCard.id = `team_${index}`;
 
+        let teamCrest = document.createElement('div');
+        teamCrest.className = "teamCrest";
+        let teamInfo = document.createElement('div');
+        teamInfo.className = "teamInfo";
+
+        let teamCrestImage = document.createElement('img');
+        teamCrestImage.src = club.crestURL;
+        teamCrestImage.className = "teamCrest";
+
         let teamName = document.createElement('div');
         teamName.className = "teamName";
         teamName.id = `team_${index}_name`;
-        teamName.innerText = clubName;
+        teamName.innerText = club.name;
 
         let teamCompetition = document.createElement('div');
         teamCompetition.className = "teamCompetition";
         teamCompetition.id = `team_${index}_competition`;
-        teamCompetition.innerText = clubCompetition;
+        teamCompetition.innerText = club.competition;
 
         let teamWebsite = document.createElement('div');
         teamWebsite.className = "teamWebsite";
         teamWebsite.id = `team_${index}_website`;
         let teamWebsiteLink = document.createElement('a');
-        teamWebsiteLink.href = clubWebsite;
-        teamWebsiteLink.text = clubWebsite;
+        teamWebsiteLink.href = club.website;
+        teamWebsiteLink.text = club.website;
         teamWebsite.appendChild(teamWebsiteLink);
 
-        teamCard.appendChild(teamName);
-        teamCard.appendChild(teamCompetition);
-        teamCard.appendChild(teamWebsite);
+        teamCrest.appendChild(teamCrestImage);
+        teamInfo.appendChild(teamName);
+        teamInfo.appendChild(teamCompetition);
+        teamInfo.appendChild(teamWebsite);
+        teamCard.appendChild(teamCrest);
+        teamCard.appendChild(teamInfo);
+
         return teamCard;
     }
 

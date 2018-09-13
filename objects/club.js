@@ -1,10 +1,11 @@
 class Club {
 
-    constructor(name, coordinates, competition, website) {
+    constructor(name, coordinates, competition, website, crestURL) {
         this._name = name;
         this._coordinates = coordinates;
         this._competition = competition;
         this._website = website;
+        this._crestURL = crestURL;
     }
 
     get name() {
@@ -18,6 +19,9 @@ class Club {
     }
     get website() {
         return this._website;
+    }
+    get crestURL() {
+        return this._crestURL;
     }
 
     isValid() {

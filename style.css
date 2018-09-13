@@ -123,6 +123,19 @@ input {
     color: rgb(33, 37, 41);
 }
 
+#teams .teamCard .teamCrest {
+    width: 50px;
+    float:left;
+}
+
+.teamInfo {
+    float:left;
+    margin-left: 15px;
+}
+
+
+
+
 @media only screen and (max-width: 1200px) {
     #teams .teamCard {
         width: 100%;
