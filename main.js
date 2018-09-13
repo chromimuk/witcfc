@@ -1,6 +1,6 @@
 var App = (function () {
 
-    const maxTeams = 5;
+    let _maxTeams = 0;
 
     const tryToGeoLocAtInit = false;
 
@@ -9,7 +9,7 @@ var App = (function () {
     let _competitions = [];
 
     function init() {
-        HtmlHelper.init(onFormSubmit, Tools.tryToGeoLoc, maxTeams);
+        HtmlHelper.init(onFormSubmit, Tools.tryToGeoLoc);
         MapHelper.init(HtmlHelper.getMapDivID());
         
         if (tryToGeoLocAtInit === true)
@@ -32,6 +32,7 @@ var App = (function () {
 
         // get selected competitions from the form
         _competitions = HtmlHelper.getSelectedCompetitions();
+        _maxTeams = HtmlHelper.getNbClubsShown();
 
         LazyLoadingTools.setCompetitionsCount(_competitions.length);
         LazyLoadingTools.setOnCompetitionScriptsLoadedCallback(onCompetitionScriptLoaded);
@@ -102,7 +103,7 @@ var App = (function () {
             const distanceClubA = DistanceTools.calculateDistance(clubA.coordinates, coordinates);
             const distanceClubB = DistanceTools.calculateDistance(clubB.coordinates, coordinates);
             return distanceClubA - distanceClubB;
-        }).slice(0, maxTeams);
+        }).slice(0, _maxTeams);
     }
 
     return {

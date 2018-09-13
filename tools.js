@@ -108,8 +108,9 @@ var LazyLoadingTools = (function () {
 
 var HtmlHelper = (function () {
 
-    let _maxTeams = 0;
-
+    const defaultMaxClubsShown = 5;
+    
+    
     // coordinates
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
@@ -121,10 +122,15 @@ var HtmlHelper = (function () {
     const chk_Germany_bundesliga = document.getElementById("chk_germany_bundesliga");
     const chk_England_premierLeague = document.getElementById("chk_gb_premierLeague");
 
+    // nbShownClubs
+    const inputNbShownClubs = document.getElementById("nbShownClubs");
 
-    function init(callbackOnSubmit, callbackGeoLoc, maxTeams) {
-        
-        _maxTeams = maxTeams;
+    // results
+    const divTeams = document.getElementById("teams");
+    
+
+
+    function init(callbackOnSubmit, callbackGeoLoc) {
 
         // form fields
         inputLatitude.onchange = callbackOnSubmit;
@@ -133,6 +139,7 @@ var HtmlHelper = (function () {
         chk_Spain_primeraDivision.onchange = callbackOnSubmit;
         chk_Germany_bundesliga.onchange = callbackOnSubmit;
         chk_England_premierLeague.onchange = callbackOnSubmit;
+        inputNbShownClubs.onchange = callbackOnSubmit;
 
         // geoloc button
         btnGeoLoc.onclick = function() {
@@ -148,6 +155,15 @@ var HtmlHelper = (function () {
 
     function getMapDivID() {
         return 'mapid';
+    }
+
+    function getNbClubsShown() {
+        const inputNbShownClubsValue = inputNbShownClubs.value;
+        const isInt = /^-?[0-9]+$/;
+        if (isInt.test(inputNbShownClubsValue))
+            return parseInt(inputNbShownClubsValue, 10);
+        else 
+            return defaultMaxClubsShown;   
     }
 
     function getCurrentCoordinates() {
@@ -186,21 +202,62 @@ var HtmlHelper = (function () {
     }
 
     function printClubs(clubs) {
-        if (_maxTeams !== clubs.length)
+        const maxTeams = getNbClubsShown();
+        if (maxTeams !== clubs.length)
             throw new Error('maxTeams !== clubs.length');
 
-        let divClubName, divClubCompetition, divClubWebsite, club;
-        for (let i = 1; i <= _maxTeams; i++) {
-            divClubName = document.getElementById(`team_${i}_name`);
-            divClubCompetition = document.getElementById(`team_${i}_competition`);
-            divClubWebsite = document.getElementById(`team_${i}_website`);
-
-            club = clubs[i - 1];
-            divClubName.innerText = club.name;
-            divClubCompetition.innerText = club.competition;
-            divClubWebsite.innerHTML = `<a href="${club.website}">${club.website}</a>`;
+            divTeams.innerHTML = '';
+            
+        let club;
+        for (let index = 1; index <= maxTeams; index++) {
+            club = clubs[index - 1];
+            divTeams.appendChild(getClubCard(index, club));
         }
     }
+
+
+
+    // <div class="teamCard" id="team_1">
+    //     <div class="teamName" id="team_1_name"></div>
+    //     <div class="teamCompetition" id="team_1_competition"></div>
+    //     <div class="teamWebsite" id="team_1_website">
+    //      <a href="...">...</a>
+    //     </div>
+    // </div>
+    function getClubCard(index, club)
+    {
+        const clubName = club.name;
+        const clubCompetition = club.competition;
+        const clubWebsite = club.website;
+        
+        let teamCard = document.createElement('div');
+        teamCard.className = "teamCard";
+        teamCard.id = `team_${index}`;
+
+        let teamName = document.createElement('div');
+        teamName.className = "teamName";
+        teamName.id = `team_${index}_name`;
+        teamName.innerText = clubName;
+
+        let teamCompetition = document.createElement('div');
+        teamCompetition.className = "teamCompetition";
+        teamCompetition.id = `team_${index}_competition`;
+        teamCompetition.innerText = clubCompetition;
+
+        let teamWebsite = document.createElement('div');
+        teamWebsite.className = "teamWebsite";
+        teamWebsite.id = `team_${index}_website`;
+        let teamWebsiteLink = document.createElement('a');
+        teamWebsiteLink.href = clubWebsite;
+        teamWebsiteLink.text = clubWebsite;
+        teamWebsite.appendChild(teamWebsiteLink);
+
+        teamCard.appendChild(teamName);
+        teamCard.appendChild(teamCompetition);
+        teamCard.appendChild(teamWebsite);
+        return teamCard;
+    }
+
 
     return {
         init: init,
@@ -208,6 +265,7 @@ var HtmlHelper = (function () {
         getCurrentCoordinates: getCurrentCoordinates,
         setCurrentCoordinates: setCurrentCoordinates,
         getSelectedCompetitions: getSelectedCompetitions,
+        getNbClubsShown: getNbClubsShown,
         printClubs: printClubs
     };
 

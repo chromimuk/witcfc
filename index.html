@@ -92,11 +92,13 @@
                                         <label for="chk_italy_serieA">Serie A</label>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="chk_netherlands_eredivisie" id="chk_netherlands_eredivisie" disabled="disabled">
+                                        <input type="checkbox" name="chk_netherlands_eredivisie" id="chk_netherlands_eredivisie"
+                                            disabled="disabled">
                                         <label for="chk_netherlands_eredivisie">Eredivisie</label>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="chk_portugal_primeiraLiga" id="chk_portugal_primeiraLiga" disabled="disabled">
+                                        <input type="checkbox" name="chk_portugal_primeiraLiga" id="chk_portugal_primeiraLiga"
+                                            disabled="disabled">
                                         <label for="chk_france_ligue1">Primeira Liga</label>
                                     </td>
                                 </tr>
@@ -104,6 +106,13 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- nbShownClubs -->
+                <div class="formBox">
+                    <label for="nbShownClubs">Nombre de clubs affichés</label>
+                    <input type="number" name="nbShownClubs" id="nbShownClubs" value="5" min="1">
+                </div>
+
             </form>
             <div class="clear"></div>
         </div>
@@ -113,31 +122,6 @@
         <div class="title">Clubs les plus proches</div>
 
         <div id="teams">
-            <div class="teamCard" id="team_1">
-                <div class="teamName" id="team_1_name"></div>
-                <div class="teamCompetition" id="team_1_competition"></div>
-                <div class="teamWebsite" id="team_1_website"></div>
-            </div>
-            <div class="teamCard" id="team_2">
-                <div class="teamName" id="team_2_name"></div>
-                <div class="teamCompetition" id="team_2_competition"></div>
-                <div class="teamWebsite" id="team_2_website"></div>
-            </div>
-            <div class="teamCard" id="team_3">
-                <div class="teamName" id="team_3_name"></div>
-                <div class="teamCompetition" id="team_3_competition"></div>
-                <div class="teamWebsite" id="team_3_website"></div>
-            </div>
-            <div class="teamCard" id="team_4">
-                <div class="teamName" id="team_4_name"></div>
-                <div class="teamCompetition" id="team_4_competition"></div>
-                <div class="teamWebsite" id="team_4_website"></div>
-            </div>
-            <div class="teamCard" id="team_5">
-                <div class="teamName" id="team_5_name"></div>
-                <div class="teamCompetition" id="team_5_competition"></div>
-                <div class="teamWebsite" id="team_5_website"></div>
-            </div>
         </div>
 
     </div>
