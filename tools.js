@@ -1,9 +1,9 @@
 var Tools = (function () {
 
     function tryToGeoLoc(callbackSuccess, callbackFail) {
-        
+
         console.log(callbackSuccess, callbackFail);
-        
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(callbackSuccess, callbackFail);
         } else {
@@ -108,9 +108,11 @@ var LazyLoadingTools = (function () {
 
 var HtmlHelper = (function () {
 
-    const defaultMaxClubsShown = 5;
-    
-    
+    const default_latitude = 46.2044;
+    const default_longitude = 6.1432;
+    const default_maxClubsShown = 5;
+
+
     // coordinates
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
@@ -128,7 +130,7 @@ var HtmlHelper = (function () {
 
     // results
     const divTeams = document.getElementById("teams");
-    
+
 
 
     function init(callbackOnSubmit, callbackGeoLoc) {
@@ -144,9 +146,9 @@ var HtmlHelper = (function () {
         inputNbShownClubs.onchange = callbackOnSubmit;
 
         // geoloc button
-        btnGeoLoc.onclick = function() {
+        btnGeoLoc.onclick = function () {
             callbackGeoLoc(
-                function(position) { 
+                function (position) {
                     setCurrentCoordinates(position.coords.latitude, position.coords.longitude);
                     callbackOnSubmit();
                 },
@@ -164,15 +166,15 @@ var HtmlHelper = (function () {
         const isInt = /^-?[0-9]+$/;
         if (isInt.test(inputNbShownClubsValue))
             return parseInt(inputNbShownClubsValue, 10);
-        else 
-            return defaultMaxClubsShown;   
+        else
+            return default_maxClubsShown;
     }
 
     function getCurrentCoordinates() {
+        let latitude = inputLatitude.value || default_latitude;
+        let longitude = inputLongitude.value || default_longitude;
         return new Coordinate(
-            inputLatitude.value,
-            inputLongitude.value,
-            Coordinate.getDefaultDescription()
+            latitude, longitude, Coordinate.getDefaultDescription()
         );
     }
 
@@ -212,8 +214,8 @@ var HtmlHelper = (function () {
         if (maxTeams !== clubs.length)
             throw new Error('maxTeams !== clubs.length');
 
-            divTeams.innerHTML = '';
-            
+        divTeams.innerHTML = '';
+
         let club;
         for (let index = 1; index <= maxTeams; index++) {
             club = clubs[index - 1];
@@ -230,12 +232,11 @@ var HtmlHelper = (function () {
     //      <a href="...">...</a>
     //     </div>
     // </div>
-    function getClubCard(index, club)
-    {
+    function getClubCard(index, club) {
         const clubName = club.name;
         const clubCompetition = club.competition;
         const clubWebsite = club.website;
-        
+
         let teamCard = document.createElement('div');
         teamCard.className = "teamCard";
         teamCard.id = `team_${index}`;
