@@ -112,8 +112,11 @@ var HtmlHelper = (function () {
     const default_longitude = 6.1432;
     const default_maxClubsShown = 5;
 
+    let isSearchBoxContentShown = false;
 
-    // coordinates
+    // form
+    const searchBoxTitle = document.getElementById("searchBoxTitle");
+    const searchBoxContent = document.getElementById("searchBoxContent");
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
     const btnGeoLoc = document.getElementById("btnGeoLoc");
@@ -155,6 +158,17 @@ var HtmlHelper = (function () {
                 callbackOnSubmit
             );
         };
+
+        searchBoxTitle.onclick = function () {
+            console.log('searchBoxTitle')
+            if (isSearchBoxContentShown === true)
+                searchBoxContent.classList.add("hidden");
+            else
+                searchBoxContent.classList.remove("hidden");
+
+            isSearchBoxContentShown = !isSearchBoxContentShown;
+            console.log(searchBoxContent)
+        }
     };
 
     function getMapDivID() {

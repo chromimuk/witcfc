@@ -26,111 +26,114 @@
 
     <div class="content">
 
-        <div class="title">Options de recherche</div>
+        <div class="searchBox">
+            <div id="searchBoxTitle" class="searchBoxTitle">🔍 Options de recherche</div>
+            <div id="searchBoxContent" class="form searchBoxContent hidden">
+                <form>
+                    <!-- coordinates -->
+                    <div class="formBox formBox-position">
 
-        <div class="form">
-            <form>
-                <!-- coordinates -->
-                <div class="formBox formBox-position">
-
-                    <div class="formTitle">
-                        Position
-                        <button type="button" class="discreteButton" id="btnGeoLoc">Me géolocaliser</button>
-                    </div>
-
-                    <div>
-                        <div class="divCoordinates">
-                            <label for="latitude">Latitude</label>
-                            <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
+                        <div class="formTitle">
+                            Position
+                            <button type="button" class="discreteButton" id="btnGeoLoc">Me géolocaliser</button>
                         </div>
-                        <div class="clear"></div>
-                        <div class="divCoordinates">
-                            <label for="longitude">Longitude</label>
-                            <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+
+                        <div>
+                            <div class="divCoordinates">
+                                <label for="latitude">Latitude</label>
+                                <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
+                            </div>
+                            <div class="clear"></div>
+                            <div class="divCoordinates">
+                                <label for="longitude">Longitude</label>
+                                <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
+                            </div>
+                        </div>
+
+                        <b>ou</b>
+
+                        <div>
+                            <label for="address">Adresse, ville, etc.</label>
+                            <input type="text" readonly="readonly" name="address" id="address" placeholder="Genève">
                         </div>
                     </div>
 
-                    <b>ou</b>
-
-                    <div>
-                        <label for="address">Adresse, ville, etc.</label>
-                        <input type="text" readonly="readonly" name="address" id="address" placeholder="Genève">
+                    <!-- competitions -->
+                    <div class="formBox formBox-competition">
+                        <div class="formTitle">Compétitions</div>
+                        <div class="divCompetitionTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>🇩🇪 Allemagne</th>
+                                        <th>🇪🇸 Espagne</th>
+                                        <th>🇫🇷 France</th>
+                                        <th>🇬🇧 Grande-Bretagne</th>
+                                        <th>🇮🇹 Italie</th>
+                                        <th>🇳🇱 Pays-Bas</th>
+                                        <th>🇵🇹 Portugal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="chk_germany_bundesliga" id="chk_germany_bundesliga"
+                                                checked="checked">
+                                            <label for="chk_germany_bundesliga">Bundesliga</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision"
+                                                checked="checked">
+                                            <label for="chk_spain_primeraDivision">La Liga</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1"
+                                                checked="checked">
+                                            <label for="chk_france_ligue1">Ligue 1</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_gb_premierLeague" id="chk_gb_premierLeague"
+                                                checked="checked">
+                                            <label for="chk_gb_premierLeague">Premier League</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_italy_serieA" id="chk_italy_serieA"
+                                                checked="checked">
+                                            <label for="chk_italy_serieA">Serie A</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_netherlands_eredivisie" id="chk_netherlands_eredivisie"
+                                                disabled="disabled">
+                                            <label for="chk_netherlands_eredivisie">Eredivisie</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="chk_portugal_primeiraLiga" id="chk_portugal_primeiraLiga"
+                                                disabled="disabled">
+                                            <label for="chk_france_ligue1">Primeira Liga</label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
-                <!-- competitions -->
-                <div class="formBox formBox-competition">
-                    <div class="formTitle">Compétitions</div>
-                    <div class="divCompetitionTable">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>🇩🇪 Allemagne</th>
-                                    <th>🇪🇸 Espagne</th>
-                                    <th>🇫🇷 France</th>
-                                    <th>🇬🇧 Grande-Bretagne</th>
-                                    <th>🇮🇹 Italie</th>
-                                    <th>🇳🇱 Pays-Bas</th>
-                                    <th>🇵🇹 Portugal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="chk_germany_bundesliga" id="chk_germany_bundesliga"
-                                            checked="checked">
-                                        <label for="chk_germany_bundesliga">Bundesliga</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_spain_primeraDivision" id="chk_spain_primeraDivision"
-                                            checked="checked">
-                                        <label for="chk_spain_primeraDivision">La Liga</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_france_ligue1" id="chk_france_ligue1" checked="checked">
-                                        <label for="chk_france_ligue1">Ligue 1</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_gb_premierLeague" id="chk_gb_premierLeague"
-                                            checked="checked">
-                                        <label for="chk_gb_premierLeague">Premier League</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_italy_serieA" id="chk_italy_serieA" checked="checked">
-                                        <label for="chk_italy_serieA">Serie A</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_netherlands_eredivisie" id="chk_netherlands_eredivisie"
-                                            disabled="disabled">
-                                        <label for="chk_netherlands_eredivisie">Eredivisie</label>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="chk_portugal_primeiraLiga" id="chk_portugal_primeiraLiga"
-                                            disabled="disabled">
-                                        <label for="chk_france_ligue1">Primeira Liga</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- nbShownClubs -->
+                    <div class="formBox">
+                        <label for="nbShownClubs">Nombre de clubs affichés</label>
+                        <input type="number" name="nbShownClubs" id="nbShownClubs" value="5" min="1">
                     </div>
-                </div>
-
-                <!-- nbShownClubs -->
-                <div class="formBox">
-                    <label for="nbShownClubs">Nombre de clubs affichés</label>
-                    <input type="number" name="nbShownClubs" id="nbShownClubs" value="5" min="1">
-                </div>
-
-            </form>
-            <div class="clear"></div>
+                </form>
+                <div class="clear"></div>
+            </div>
         </div>
 
-        <br />
-
-        <div class="title">Clubs les plus proches</div>
-
-        <div id="teams">
+        <div class="result">
+            <div class="resultTitle">Clubs les plus proches</div>
+            <hr>
+            <div id="teams">
+            </div>
         </div>
+
 
     </div>
 
