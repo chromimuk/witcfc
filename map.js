@@ -37,6 +37,12 @@ var MapHelper = (function () {
     }
 
     function addMarker(coordinate, shouldHighlight) {
+        
+        if (coordinate === undefined) {
+            console.info('trying to add a marker with undefined coordinate');
+            return;
+        }
+        
         let marker;
         if (shouldHighlight === true) {
             marker = leafletReference.marker(coordinate.getCoordinates(), {

@@ -4,19 +4,16 @@ var App = (function () {
 
     const tryToGeoLocAtInit = false;
 
-
     // meh
     let _competitions = [];
 
     function init() {
-        HtmlHelper.init(onFormSubmit, Tools.tryToGeoLoc);
+        HtmlHelper.init(onFormSubmit, GeoLocTools.getCoordinatesFromNavigator);
         MapHelper.init(HtmlHelper.getMapDivID());
-        
-        if (tryToGeoLocAtInit === true)
-        {
-            Tools.tryToGeoLoc(showPosition, onFormSubmit);
-        }
-        else {
+
+        if (tryToGeoLocAtInit === true) {
+            GeoLocTools.getCoordinatesFromNavigator(showPosition, onFormSubmit);
+        } else {
             onFormSubmit();
         }
     }
@@ -44,20 +41,24 @@ var App = (function () {
     }
 
     function onCompetitionScriptLoaded() {
+        HtmlHelper.getCurrentCoordinates(onCurrentCoordinatesLoaded);
+    }
 
-        const clubs = getClubs();
-
-        // coordinates to look for
-        const currentCoordinates = HtmlHelper.getCurrentCoordinates();
+    function onCurrentCoordinatesLoaded(currentCoordinates) {
+        // add marker for current coordinates
         MapHelper.addMarker(currentCoordinates, true);
+
+        // get all the clubs
+        const clubs = getClubs();
 
         // get the X closest clubs
         const closestClubs = findClosestClubFromCoordinates(clubs, currentCoordinates);
 
-        // add the markers and print the results
+        // add the markers for the clubs and print the results
         MapHelper.addMarkers(closestClubs.map(x => x.coordinates), false);
         HtmlHelper.printClubs(closestClubs);
     }
+
 
     function getClubs() {
 
@@ -103,8 +104,8 @@ var App = (function () {
 
     function findClosestClubFromCoordinates(clubs, coordinates) {
         return clubs.sort(function (clubA, clubB) {
-            const distanceClubA = DistanceTools.calculateDistance(clubA.coordinates, coordinates);
-            const distanceClubB = DistanceTools.calculateDistance(clubB.coordinates, coordinates);
+            const distanceClubA = DistanceCalcTools.calculateDistance(clubA.coordinates, coordinates);
+            const distanceClubB = DistanceCalcTools.calculateDistance(clubB.coordinates, coordinates);
             return distanceClubA - distanceClubB;
         }).slice(0, _maxTeams);
     }

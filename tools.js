@@ -1,25 +1,46 @@
 var Tools = (function () {
 
-    function tryToGeoLoc(callbackSuccess, callbackFail) {
+})();
 
-        console.log(callbackSuccess, callbackFail);
 
+var GeoLocTools = (function () {
+
+    function getCoordinatesFromNavigator(callbackSuccess, callbackFail) {
+        HtmlHelper.clearLocationInput();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(callbackSuccess, callbackFail);
         } else {
             callbackFail();
         }
     }
+    
+    function getCoordinatesFromLocation(location, callbackSuccess, callbackFail) {
+        const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json`;
+
+        fetch(url).then(
+            function (response) {
+                response.json().then(function (data) {
+                    callbackSuccess(data);
+                });
+            }
+        ).catch(function (err) {
+            callbackFail(err);
+        });
+    }
 
     return {
-        tryToGeoLoc: tryToGeoLoc
-    }
+        getCoordinatesFromNavigator: getCoordinatesFromNavigator,
+        getCoordinatesFromLocation: getCoordinatesFromLocation
+    };
 })();
 
 
+var DistanceCalcTools = (function () {
 
-var DistanceTools = (function () {
     function calculateDistance(pointA, pointB) {
+        if (pointA === undefined || pointB === undefined)
+            return null;
+
         return calcCrow(
             pointA.getCoordinates()[0],
             pointA.getCoordinates()[1],
@@ -119,6 +140,7 @@ var HtmlHelper = (function () {
     const searchBoxContent = document.getElementById("searchBoxContent");
     const inputLatitude = document.getElementById("inputLatitude");
     const inputLongitude = document.getElementById("inputLongitude");
+    const inputAddress = document.getElementById("address");
     const btnGeoLoc = document.getElementById("btnGeoLoc");
 
     // competitions
@@ -147,6 +169,7 @@ var HtmlHelper = (function () {
         chk_England_premierLeague.onchange = callbackOnSubmit;
         chk_Italy_SerieA.onchange = callbackOnSubmit;
         inputNbShownClubs.onchange = callbackOnSubmit;
+        inputAddress.onchange = callbackOnSubmit;
 
         // geoloc button
         btnGeoLoc.onclick = function () {
@@ -160,14 +183,12 @@ var HtmlHelper = (function () {
         };
 
         searchBoxTitle.onclick = function () {
-            console.log('searchBoxTitle')
             if (isSearchBoxContentShown === true)
                 searchBoxContent.classList.add("hidden");
             else
                 searchBoxContent.classList.remove("hidden");
 
             isSearchBoxContentShown = !isSearchBoxContentShown;
-            console.log(searchBoxContent)
         }
     };
 
@@ -184,17 +205,53 @@ var HtmlHelper = (function () {
             return default_maxClubsShown;
     }
 
-    function getCurrentCoordinates() {
-        let latitude = inputLatitude.value || default_latitude;
-        let longitude = inputLongitude.value || default_longitude;
-        return new Coordinate(
+    function getCurrentCoordinates(onCurrentCoordinatesLoaded) {
+        let address = inputAddress.value;
+        if (address.length > 0) {
+            return getCurrentCoordinatesFromLocation(address, onCurrentCoordinatesLoaded);
+        } else {
+            return getCurrentCoordinatesFromGeoPosition(onCurrentCoordinatesLoaded);
+        }
+    }
+
+    function getCurrentCoordinatesFromGeoPosition(onCurrentCoordinatesLoaded) {
+        const latitude = inputLatitude.value || default_latitude;
+        const longitude = inputLongitude.value || default_longitude;
+        const coordinates = new Coordinate(
             latitude, longitude, Coordinate.getDefaultDescription()
         );
+        onCurrentCoordinatesLoaded(coordinates);
+    }
+
+    function getCurrentCoordinatesFromLocation(address, onCurrentCoordinatesLoaded) {
+        GeoLocTools.getCoordinatesFromLocation(address,
+            function (data) {
+                if (data.length == 0)
+                    errWhileLookingForCoordinates('not found');
+
+                // let's assume the first result is the good one
+                const info = data[0]; 
+                setCurrentCoordinates(info.lat, info.lon);
+                const coordinates = new Coordinate(
+                    info.lat, info.lon, Coordinate.getDefaultDescription()
+                );
+                onCurrentCoordinatesLoaded(coordinates);
+            },
+            errWhileLookingForCoordinates
+        );
+    }
+
+    function errWhileLookingForCoordinates(err) {
+        console.err(err);
     }
 
     function setCurrentCoordinates(latitude, longitude) {
         inputLatitude.value = latitude;
         inputLongitude.value = longitude;
+    }
+
+    function clearLocationInput() {
+        inputAddress.value = '';
     }
 
     function getSelectedCompetitions() {
@@ -297,7 +354,8 @@ var HtmlHelper = (function () {
         setCurrentCoordinates: setCurrentCoordinates,
         getSelectedCompetitions: getSelectedCompetitions,
         getNbClubsShown: getNbClubsShown,
-        printClubs: printClubs
+        printClubs: printClubs,
+        clearLocationInput: clearLocationInput
     };
 
 })();
