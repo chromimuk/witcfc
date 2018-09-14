@@ -13,9 +13,17 @@ var GeoLocTools = (function () {
             callbackFail();
         }
     }
-    
+
     function getCoordinatesFromLocation(location, callbackSuccess, callbackFail) {
-        const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json`;
+
+        const baseURL = 'https://nominatim.openstreetmap.org/search?';
+        const args = [
+            'format=json', // Output format
+            `q=${location}`, // Query string to search for
+            'addressdetails=1', // Include a breakdown of the address into elements
+            'limit=1' // limit the number of returned results 
+        ];
+        const url = `${baseURL}${args.join('&')}`;
 
         fetch(url).then(
             function (response) {
@@ -155,6 +163,8 @@ var HtmlHelper = (function () {
 
     // results
     const divTeams = document.getElementById("teams");
+    const addressResult = document.getElementById("addressResult");
+
 
 
 
@@ -230,12 +240,13 @@ var HtmlHelper = (function () {
                     errWhileLookingForCoordinates('not found');
 
                 // let's assume the first result is the good one
-                const info = data[0]; 
+                const info = data[0];
+                setAddressResult(info.address);
                 setCurrentCoordinates(info.lat, info.lon);
-                const coordinates = new Coordinate(
+
+                onCurrentCoordinatesLoaded(new Coordinate(
                     info.lat, info.lon, Coordinate.getDefaultDescription()
-                );
-                onCurrentCoordinatesLoaded(coordinates);
+                ));
             },
             errWhileLookingForCoordinates
         );
@@ -252,6 +263,7 @@ var HtmlHelper = (function () {
 
     function clearLocationInput() {
         inputAddress.value = '';
+        addressResult.innerText = '';
     }
 
     function getSelectedCompetitions() {
@@ -294,7 +306,12 @@ var HtmlHelper = (function () {
         }
     }
 
-
+    function setAddressResult(addressInfo) {
+        const road = addressInfo.road !== undefined ? addressInfo.road + ', ' : '';
+        const mainLoc = addressInfo.town || addressInfo.city || addressInfo.county || '';
+        const infoAddress = `${road}${mainLoc} (${addressInfo.country})`;
+        addressResult.innerText = infoAddress;
+    }
 
     // <div class="teamCard" id="team_1">
     //     <div class="teamName" id="team_1_name"></div>
