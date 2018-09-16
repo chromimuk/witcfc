@@ -142,13 +142,14 @@ var HtmlHelper = (function () {
     const default_maxClubsShown = 5;
 
     let isSearchBoxContentShown = false;
+    let currentLatitude;
+    let currentLongitude;
+
 
     // form
     const searchBoxTitle = document.getElementById("searchBoxTitle");
     const searchBoxContent = document.getElementById("searchBoxContent");
-    const inputLatitude = document.getElementById("inputLatitude");
-    const inputLongitude = document.getElementById("inputLongitude");
-    const inputAddress = document.getElementById("address");
+    const inputAddress = document.getElementById("inputAddress");
     const btnGeoLoc = document.getElementById("btnGeoLoc");
 
     // competitions
@@ -171,8 +172,6 @@ var HtmlHelper = (function () {
     function init(callbackOnSubmit, callbackGeoLoc) {
 
         // form fields
-        inputLatitude.onchange = callbackOnSubmit;
-        inputLongitude.onchange = callbackOnSubmit;
         chk_France_ligue1.onchange = callbackOnSubmit;
         chk_Spain_primeraDivision.onchange = callbackOnSubmit;
         chk_Germany_bundesliga.onchange = callbackOnSubmit;
@@ -225,8 +224,8 @@ var HtmlHelper = (function () {
     }
 
     function getCurrentCoordinatesFromGeoPosition(onCurrentCoordinatesLoaded) {
-        const latitude = inputLatitude.value || default_latitude;
-        const longitude = inputLongitude.value || default_longitude;
+        const latitude = currentLatitude || default_latitude;
+        const longitude = currentLongitude || default_longitude;
         const coordinates = new Coordinate(
             latitude, longitude, Coordinate.getDefaultDescription()
         );
@@ -257,8 +256,8 @@ var HtmlHelper = (function () {
     }
 
     function setCurrentCoordinates(latitude, longitude) {
-        inputLatitude.value = latitude;
-        inputLongitude.value = longitude;
+        currentLatitude = latitude;
+        currentLongitude = longitude;
     }
 
     function clearLocationInput() {

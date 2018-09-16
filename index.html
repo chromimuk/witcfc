@@ -32,29 +32,14 @@
                 <form>
                     <!-- coordinates -->
                     <div class="formBox formBox-position">
-
                         <div class="formTitle">
                             Position
                             <button type="button" class="discreteButton" id="btnGeoLoc">Me géolocaliser</button>
                         </div>
 
                         <div>
-                            <div class="divCoordinates">
-                                <label for="latitude">Latitude</label>
-                                <input type="text" name="latitude" id="inputLatitude" placeholder="46.2044">
-                            </div>
-                            <div class="clear"></div>
-                            <div class="divCoordinates">
-                                <label for="longitude">Longitude</label>
-                                <input type="text" name="longitude" id="inputLongitude" placeholder="6.1432">
-                            </div>
-                        </div>
-
-                        <b>ou</b>
-
-                        <div>
-                            <label for="address">Adresse, ville, etc.</label>
-                            <input type="text" name="address" id="address" placeholder="Genève">
+                            <label class="labelAddress" for="address">Adresse, ville, etc.</label>
+                            <input type="text" name="address" id="inputAddress" class="inputAddress" placeholder="Genève">
                             <span id="addressResult"></span>
                         </div>
                     </div>
@@ -120,8 +105,8 @@
 
                     <!-- nbShownClubs -->
                     <div class="formBox">
-                        <label for="nbShownClubs">Nombre de clubs affichés</label>
-                        <input type="number" name="nbShownClubs" id="nbShownClubs" value="5" min="1">
+                        <input type="number" name="nbShownClubs" id="nbShownClubs" class="inputShownClubs" value="5" min="1">
+                        <label for="nbShownClubs"> clubs affichés (debug)</label>
                     </div>
                 </form>
                 <div class="clear"></div>
@@ -137,8 +122,8 @@
         </div>
 
         <div class="footer">
-            Data from <a href="https://www.football-data.org">football-data.org</a><br/>
-            The map uses <a href="https://leafletjs.com">Leaflet</a> and <a href="https://foundation.wikimedia.org/wiki/Maps_Terms_of_Use">Wikimedia</a><br/>
+            Data from <a href="https://www.football-data.org">football-data.org</a><br />
+            The map uses <a href="https://leafletjs.com">Leaflet</a> and <a href="https://foundation.wikimedia.org/wiki/Maps_Terms_of_Use">Wikimedia</a><br />
             Geoloc service thanks to <a href="https://wiki.openstreetmap.org/wiki/Nominatim">OSM's Nominatim</a>
         </div>
     </div>

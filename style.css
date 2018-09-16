@@ -136,6 +136,19 @@ input {
     box-sizing: border-box;
 }
 
+.labelAddress {
+    width: 30%;
+}
+
+.inputAddress {
+    width: 70%;
+}
+
+.inputShownClubs {
+    width: 50px;
+}
+
+
 
 @media only screen and (max-width: 1200px) {
     #teams .teamCard {
@@ -182,10 +195,8 @@ input {
         float: right;
     }
 
-    #address,
-    #nbShownClubs {
+    .inputAddress {
         width: 95%;
-        /* hack :( */
     }
 
     #teams {
