@@ -165,6 +165,7 @@ var HtmlHelper = (function () {
     // results
     const divTeams = document.getElementById("teams");
     const addressResult = document.getElementById("addressResult");
+    const divResult = document.getElementById("divResult");
 
 
 
@@ -192,14 +193,19 @@ var HtmlHelper = (function () {
         };
 
         searchBoxTitle.onclick = function () {
-            if (isSearchBoxContentShown === true)
-                searchBoxContent.classList.add("hidden");
-            else
-                searchBoxContent.classList.remove("hidden");
-
-            isSearchBoxContentShown = !isSearchBoxContentShown;
+            isSearchBoxContentShown ? closeSearchBox() : openSearchBox();
         }
     };
+
+    function openSearchBox() {
+        searchBoxContent.classList.remove("hidden");
+        isSearchBoxContentShown = true;
+    }
+
+    function closeSearchBox() {
+        searchBoxContent.classList.add("hidden");
+        isSearchBoxContentShown = false;
+    }
 
     function getMapDivID() {
         return 'mapid';
@@ -292,6 +298,9 @@ var HtmlHelper = (function () {
     }
 
     function printClubs(clubs) {
+
+        divResult.classList.remove('hidden');
+
         const maxTeams = getNbClubsShown();
         if (maxTeams !== clubs.length)
             throw new Error('maxTeams !== clubs.length');
@@ -371,7 +380,8 @@ var HtmlHelper = (function () {
         getSelectedCompetitions: getSelectedCompetitions,
         getNbClubsShown: getNbClubsShown,
         printClubs: printClubs,
-        clearLocationInput: clearLocationInput
+        clearLocationInput: clearLocationInput,
+        closeSearchBox: closeSearchBox
     };
 
 })();

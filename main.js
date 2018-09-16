@@ -1,5 +1,6 @@
 var App = (function () {
 
+    const tryToGeoLocAtInit = true;
     let _maxTeams = 0;
     let _competitions = [];
 
@@ -7,6 +8,12 @@ var App = (function () {
         HtmlHelper.init(onFormSubmit, GeoLocTools.getCoordinatesFromNavigator);
         MapHelper.init(HtmlHelper.getMapDivID());
         MapHelper.setView();
+
+        if (tryToGeoLocAtInit === true) {
+            GeoLocTools.getCoordinatesFromNavigator(showPosition, onFormSubmit);
+        } else {
+            onFormSubmit();
+        }
     }
 
     function showPosition(position) {
@@ -15,6 +22,9 @@ var App = (function () {
     }
 
     function onFormSubmit() {
+
+        HtmlHelper.closeSearchBox();
+
         // remove all markers on the map
         MapHelper.cleanMarkers();
 
