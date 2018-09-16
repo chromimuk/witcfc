@@ -9,10 +9,9 @@ var App = (function () {
         MapHelper.init(HtmlHelper.getMapDivID());
         MapHelper.setView();
 
+        onFormSubmit();
         if (tryToGeoLocAtInit === true) {
             GeoLocTools.getCoordinatesFromNavigator(showPosition, onFormSubmit);
-        } else {
-            onFormSubmit();
         }
     }
 
