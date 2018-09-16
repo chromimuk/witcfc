@@ -27,7 +27,7 @@ const competitions_spain_primeraDivision = {
         "name": "Athletic Club",
         "shortName": "Athletic Club",
         "tla": "BIL",
-        "crestUrl": "http://upload.wikimedia.org/wikipedia/de/7/7f/Athletic_Club_Bilbao.svg",
+        "crestUrl": "https://upload.wikimedia.org/wikipedia/en/9/98/Club_Athletic_Bilbao_logo.svg",
         "address": "Ibaigane, Alameda Mazarredo, 23 Bilbao 48009",
         "latitude": "43.264135",
         "longitude": "-2.949365",
