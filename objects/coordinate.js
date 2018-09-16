@@ -39,7 +39,7 @@ class Coordinate {
     }
 
     static getDefaultDescription() {
-        return "Vous êtes ici";
+        return "";
     }
 
     isValid() {

@@ -1,21 +1,12 @@
 var App = (function () {
 
     let _maxTeams = 0;
-
-    const tryToGeoLocAtInit = false;
-
-    // meh
     let _competitions = [];
 
     function init() {
         HtmlHelper.init(onFormSubmit, GeoLocTools.getCoordinatesFromNavigator);
         MapHelper.init(HtmlHelper.getMapDivID());
-
-        if (tryToGeoLocAtInit === true) {
-            GeoLocTools.getCoordinatesFromNavigator(showPosition, onFormSubmit);
-        } else {
-            onFormSubmit();
-        }
+        MapHelper.setView();
     }
 
     function showPosition(position) {
@@ -47,6 +38,8 @@ var App = (function () {
     function onCurrentCoordinatesLoaded(currentCoordinates) {
         // add marker for current coordinates
         MapHelper.addMarker(currentCoordinates, true);
+
+        MapHelper.setView(currentCoordinates._latitude.value, currentCoordinates._longitude.value, 6);
 
         // get all the clubs
         const clubs = getClubs();

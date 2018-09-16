@@ -3,11 +3,13 @@ var MapHelper = (function () {
     const leafletReference = L;
 
     let _divMap;
+    let _myMap;
     let _markersCurrentlyOnMap = [];
 
     // init values
-    const center = [46.2276, 2.2137]; // France
-    const zoom = 5;
+    const INIT_LATITUDE = 46.2276;
+    const INIT_LONGITUDE = 2.2137;
+    const INIT_ZOOM = 4;
 
     // layer options
     const minZoom = 1;
@@ -20,10 +22,8 @@ var MapHelper = (function () {
 
 
     function init(divMap) {
-
         _divMap = divMap;
-        mymap = leafletReference.map(_divMap).setView(center, zoom);
-
+        _myMap = leafletReference.map(_divMap);
         setup();
     }
 
@@ -33,30 +33,28 @@ var MapHelper = (function () {
             attribution: attribution,
             minZoom: minZoom,
             maxZoom: maxZoom
-        }).addTo(mymap);
+        }).addTo(_myMap);
     }
 
-    function addMarker(coordinate, shouldHighlight) {
-        
-        if (coordinate === undefined) {
-            console.info('trying to add a marker with undefined coordinate');
+    function addMarker(coordinate, isOwnPosition) {
+
+        if (coordinate === undefined)
             return;
-        }
-        
+
         let marker;
-        if (shouldHighlight === true) {
+        if (isOwnPosition === true) {
             marker = leafletReference.marker(coordinate.getCoordinates(), {
                 icon: createRedIcon()
             });
         } else {
             marker = leafletReference.marker(coordinate.getCoordinates());
+            marker.bindPopup(coordinate.description);
         }
-        _markersCurrentlyOnMap.push(marker.addTo(mymap).bindPopup(coordinate.description));
+        _markersCurrentlyOnMap.push(marker.addTo(_myMap));
     }
 
     function addMarkers(coordinates, shouldHighlight) {
-        for (let coordinate of coordinates)
-        {
+        for (let coordinate of coordinates) {
             addMarker(coordinate, shouldHighlight);
         }
     }
@@ -81,12 +79,22 @@ var MapHelper = (function () {
         _markersCurrentlyOnMap = [];
     }
 
+    function setView(latitude, longitude, zoom) {
+        const lat = latitude || INIT_LATITUDE;
+        const lon = longitude || INIT_LONGITUDE;
+        const z = zoom || INIT_ZOOM;
+        _myMap.setView(leafletReference.latLng(lat, lon), z, {
+            animation: true
+        });
+    }
+
 
     return {
         init: init,
         addMarker: addMarker,
         addMarkers: addMarkers,
-        cleanMarkers: cleanMarkers
+        cleanMarkers: cleanMarkers,
+        setView: setView
     }
 
 })();
