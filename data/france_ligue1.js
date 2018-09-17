@@ -1,5 +1,5 @@
 const competitions_france_ligue1 = [{
-    "crestUrl": "http://upload.wikimedia.org/wikipedia/de/0/0a/FC_Toulouse_Logo.svg",
+    "crestUrl": "https://upload.wikimedia.org/wikipedia/en/f/f5/Toulouse_FC_2018_logo.png",
     "latitude": "43.582010",
     "longitude": "1.435800",
     "name": "Toulouse FC",
@@ -31,7 +31,7 @@ const competitions_france_ligue1 = [{
     "competition": "Ligue 1",
     "country": "France"
 }, {
-    "crestUrl": "http://upload.wikimedia.org/wikipedia/de/0/08/LOSC_Lille_Crest_2012.png",
+    "crestUrl": "https://upload.wikimedia.org/wikipedia/en/6/6f/Lille_OSC_2018_logo.png",
     "latitude": "50.611967",
     "longitude": "3.13049",
     "name": "Lille OSC",
@@ -103,7 +103,7 @@ const competitions_france_ligue1 = [{
     "competition": "Ligue 1",
     "country": "France"
 }, {
-    "crestUrl": "http://upload.wikimedia.org/wikipedia/de/0/0f/SCO_Angers.svg",
+    "crestUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Angers_SCO_logo.svg/200px-Angers_SCO_logo.svg.png",
     "latitude": "47.460432",
     "longitude": "-0.530794",
     "name": "Angers SCO",
@@ -135,7 +135,7 @@ const competitions_france_ligue1 = [{
     "competition": "Ligue 1",
     "country": "France"
 }, {
-    "crestUrl": "http://upload.wikimedia.org/wikipedia/de/3/3c/AS_Monaco.svg",
+    "crestUrl": "https://upload.wikimedia.org/wikipedia/fr/b/ba/AS_Monaco_FC.svg",
     "latitude": "43.727588",
     "longitude": "7.415496",
     "name": "AS Monaco FC",
