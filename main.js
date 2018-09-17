@@ -71,19 +71,19 @@ var App = (function () {
         _competitions.forEach(competition => {
             switch (competition) {
                 case Competitions.France_Ligue1:
-                    teams = teams.concat(competitions_france_ligue1.teams);
+                    teams = teams.concat(competitions_france_ligue1);
                     break;
                 case Competitions.Spain_PrimeraDivision:
-                    teams = teams.concat(competitions_spain_primeraDivision.teams);
+                    teams = teams.concat(competitions_spain_primeraDivision);
                     break;
                 case Competitions.Germany_Bundesliga:
-                    teams = teams.concat(competitions_germany_bundesliga.teams);
+                    teams = teams.concat(competitions_germany_bundesliga);
                     break;
                 case Competitions.England_PremierLeague:
-                    teams = teams.concat(competitions_england_premierLeague.teams);
+                    teams = teams.concat(competitions_england_premierLeague);
                     break;
                 case Competitions.Italy_SerieA:
-                    teams = teams.concat(competitions_italy_serieA.teams);
+                    teams = teams.concat(competitions_italy_serieA);
                     break;
             }
         });
@@ -94,7 +94,7 @@ var App = (function () {
                 new Club(
                     team.name,
                     new Coordinate(team.latitude, team.longitude, team.name),
-                    '', // competition
+                    team.competition,
                     team.website,
                     team.crestUrl
                 )
