@@ -152,10 +152,19 @@ input {
 
 
 @media only screen and (max-width: 1200px) {
+    
+    .content {
+        margin-bottom: 5px;
+    }
+    
     #teams .teamCard {
         width: 100%;
         margin-bottom: 10px;
         margin-right: 0%;
+    }
+
+    #teams .teamCard:last-child {
+        margin-bottom: 0;
     }
 
     .formBox {

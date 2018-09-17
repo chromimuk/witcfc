@@ -1,5 +1,11 @@
 var Tools = (function () {
+    function isInteger(element) {
+        return /^-?[0-9]+$/.test(element);
+    }
 
+    return {
+        isInteger: isInteger
+    };
 })();
 
 
@@ -137,126 +143,114 @@ var LazyLoadingTools = (function () {
 
 var HtmlHelper = (function () {
 
-    const default_latitude = 46.2044;
-    const default_longitude = 6.1432;
-    const default_maxClubsShown = 5;
+    const CONST_DEFAULT_LATITUDE = 46.2044;
+    const CONST_DEFAULT_LONGITUDE = 6.1432;
+    const CONST_DEFAULT_MAXCLUBS = 5;
 
     let isSearchBoxContentShown = false;
-    let currentLatitude;
-    let currentLongitude;
+    let currentLatitude, currentLongitude;
 
+    function init(fnRedoSearch, fnGeoLocFromNavigator) {
 
-    // form
-    const searchBoxTitle = document.getElementById("searchBoxTitle");
-    const searchBoxContent = document.getElementById("searchBoxContent");
-    const inputAddress = document.getElementById("inputAddress");
-    const btnGeoLoc = document.getElementById("btnGeoLoc");
+        setupSearchBox();
+        setupGeoLocMeButton(fnGeoLocFromNavigator, fnRedoSearch);
 
-    // competitions
-    const chk_France_ligue1 = document.getElementById("chk_france_ligue1");
-    const chk_Spain_primeraDivision = document.getElementById("chk_spain_primeraDivision");
-    const chk_Germany_bundesliga = document.getElementById("chk_germany_bundesliga");
-    const chk_England_premierLeague = document.getElementById("chk_gb_premierLeague");
-    const chk_Italy_SerieA = document.getElementById("chk_italy_serieA");
-
-    // nbShownClubs
-    const inputNbShownClubs = document.getElementById("nbShownClubs");
-
-    // results
-    const divTeams = document.getElementById("teams");
-    const addressResult = document.getElementById("addressResult");
-    const divResult = document.getElementById("divResult");
-
-
-
-
-    function init(callbackOnSubmit, callbackGeoLoc) {
-
-        // form fields
-        chk_France_ligue1.onchange = callbackOnSubmit;
-        chk_Spain_primeraDivision.onchange = callbackOnSubmit;
-        chk_Germany_bundesliga.onchange = callbackOnSubmit;
-        chk_England_premierLeague.onchange = callbackOnSubmit;
-        chk_Italy_SerieA.onchange = callbackOnSubmit;
-        inputNbShownClubs.onchange = callbackOnSubmit;
-        inputAddress.onchange = callbackOnSubmit;
-
-        // geoloc button
-        btnGeoLoc.onclick = function () {
-            callbackGeoLoc(
-                function (position) {
-                    setCurrentCoordinates(position.coords.latitude, position.coords.longitude);
-                    callbackOnSubmit();
-                },
-                callbackOnSubmit
-            );
-        };
-
-        searchBoxTitle.onclick = function () {
-            isSearchBoxContentShown ? closeSearchBox() : openSearchBox();
-        }
+        // if any competition is (de)selected, if the position or the number of clubs shown change, redo the search
+        addRedoSearchCallbackOnInputChange(fnRedoSearch);
     };
 
-    function openSearchBox() {
-        searchBoxContent.classList.remove("hidden");
-        isSearchBoxContentShown = true;
+    function setupSearchBox() {
+        const searchBoxTitle = DOMFinder.getSearchBoxTitleDiv();
+        searchBoxTitle.onclick = function () {
+            switchSearchBoxVisibility(!isSearchBoxContentShown);
+        }
     }
 
-    function closeSearchBox() {
-        searchBoxContent.classList.add("hidden");
-        isSearchBoxContentShown = false;
+    function setupGeoLocMeButton(fnGeoLocFromNavigator, fnRedoSearch) {
+        const btnGeoLoc = DOMFinder.getGeoLocMeButton();
+        btnGeoLoc.onclick = function () {
+            fnGeoLocFromNavigator(
+                function (position) {
+                    setCurrentCoordinates(position.coords.latitude, position.coords.longitude);
+                    fnRedoSearch();
+                },
+                fnRedoSearch
+            );
+        };
+    }
+
+    function addRedoSearchCallbackOnInputChange(fnRedoSearch) {
+        const chksCompetition = DOMFinder.getCompetitionCheckboxes();
+        const inputAddress = DOMFinder.getAddressInput();
+        const inputMaxClubs = DOMFinder.getMaxClubsInput();
+
+        chksCompetition.map(chk => chk.onchange = fnRedoSearch);
+        inputMaxClubs.onchange = fnRedoSearch;
+        inputAddress.onchange = fnRedoSearch;
+    }
+
+    function switchSearchBoxVisibility(shouldShow) {
+        shouldShow = shouldShow || false;
+        const searchBoxContentDiv = DOMFinder.getSearchBoxContentDiv();
+        shouldShow === true ? searchBoxContentDiv.classList.remove("hidden") : searchBoxContentDiv.classList.add("hidden");
+        isSearchBoxContentShown = shouldShow;
     }
 
     function getMapDivID() {
-        return 'mapid';
+        return DOMFinder.getMapDiv().id;
     }
 
     function getNbClubsShown() {
-        const inputNbShownClubsValue = inputNbShownClubs.value;
-        const isInt = /^-?[0-9]+$/;
-        if (isInt.test(inputNbShownClubsValue))
-            return parseInt(inputNbShownClubsValue, 10);
+        const inputValueMaxClubs = DOMFinder.getMaxClubsInput().value;
+        if (Tools.isInteger(inputValueMaxClubs))
+            return parseInt(inputValueMaxClubs, 10);
         else
-            return default_maxClubsShown;
+            return CONST_DEFAULT_MAXCLUBS;
     }
 
     function getCurrentCoordinates(onCurrentCoordinatesLoaded) {
-        let address = inputAddress.value;
-        if (address.length > 0) {
-            return getCurrentCoordinatesFromLocation(address, onCurrentCoordinatesLoaded);
+        const inputValueAddress = DOMFinder.getAddressInput().value;
+        if (inputValueAddress.length > 0) {
+            return getCurrentCoordinatesFromLocation(inputValueAddress, onCurrentCoordinatesLoaded);
         } else {
             return getCurrentCoordinatesFromGeoPosition(onCurrentCoordinatesLoaded);
         }
     }
 
     function getCurrentCoordinatesFromGeoPosition(onCurrentCoordinatesLoaded) {
-        const latitude = currentLatitude || default_latitude;
-        const longitude = currentLongitude || default_longitude;
-        const coordinates = new Coordinate(
+        const latitude = currentLatitude || CONST_DEFAULT_LATITUDE;
+        const longitude = currentLongitude || CONST_DEFAULT_LONGITUDE;
+
+        onCurrentCoordinatesLoaded(new Coordinate(
             latitude, longitude, Coordinate.getDefaultDescription()
-        );
-        onCurrentCoordinatesLoaded(coordinates);
+        ));
     }
 
     function getCurrentCoordinatesFromLocation(address, onCurrentCoordinatesLoaded) {
         GeoLocTools.getCoordinatesFromLocation(address,
             function (data) {
-                if (data.length == 0)
-                    errWhileLookingForCoordinates('not found');
-
-                // let's assume the first result is the good one
-                const info = data[0];
-                setAddressResult(info.address);
-                setCurrentCoordinates(info.lat, info.lon);
-
-                onCurrentCoordinatesLoaded(new Coordinate(
-                    info.lat, info.lon, Coordinate.getDefaultDescription()
-                ));
+                getCoordinatesFromLocationSuccess(data, onCurrentCoordinatesLoaded)
             },
             errWhileLookingForCoordinates
         );
     }
 
+    function getCoordinatesFromLocationSuccess(data, onCurrentCoordinatesLoaded) {
+
+        if (data.length == 0)
+            errWhileLookingForCoordinates('not found');
+
+        // let's assume the first result is the good one
+        const info = data[0];
+        setAddressResult(info.address);
+        setCurrentCoordinates(info.lat, info.lon);
+
+        onCurrentCoordinatesLoaded(new Coordinate(
+            info.lat, info.lon, Coordinate.getDefaultDescription()
+        ));
+    }
+
+    // TODO
     function errWhileLookingForCoordinates(err) {
         console.err(err);
     }
@@ -267,58 +261,46 @@ var HtmlHelper = (function () {
     }
 
     function clearLocationInput() {
-        inputAddress.value = '';
-        addressResult.innerText = '';
+        DOMFinder.getAddressInput().value = '';
+        DOMFinder.getAddressResultSpan().innerText = '';
     }
 
     function getSelectedCompetitions() {
         let _competitions = [];
-
-        if (chk_France_ligue1.checked === true) {
-            _competitions.push(Competitions.France_Ligue1);
-        }
-
-        if (chk_Spain_primeraDivision.checked === true) {
-            _competitions.push(Competitions.Spain_PrimeraDivision);
-        }
-
-        if (chk_Germany_bundesliga.checked === true) {
-            _competitions.push(Competitions.Germany_Bundesliga);
-        }
-
-        if (chk_England_premierLeague.checked === true) {
-            _competitions.push(Competitions.England_PremierLeague);
-        }
-
-        if (chk_Italy_SerieA.checked === true) {
-            _competitions.push(Competitions.Italy_SerieA);
-        }
-
+        DOMFinder.getCompetitionCheckboxes().forEach(chkCompetition => {
+            if (chkCompetition.checked === true) {
+                _competitions.push(getCompetitionByCheckboxID(chkCompetition.id));
+            }
+        });
         return _competitions;
     }
 
     function printClubs(clubs) {
+        const divTeams = DOMFinder.getTeamsDiv();
 
-        divResult.classList.remove('hidden');
+        // clear
+        DOMFinder.getResultDiv().classList.remove('hidden');
+        divTeams.innerHTML = '';
 
         const maxTeams = getNbClubsShown();
         if (maxTeams !== clubs.length)
             throw new Error('maxTeams !== clubs.length');
 
-        divTeams.innerHTML = '';
-
         let club;
+        let tmpDiv = document.createElement("div");
         for (let index = 1; index <= maxTeams; index++) {
             club = clubs[index - 1];
-            divTeams.appendChild(getClubCard(index, club));
+            tmpDiv.appendChild(getClubCard(index, club));
         }
+        divTeams.innerHTML = tmpDiv.innerHTML;
     }
 
     function setAddressResult(addressInfo) {
-        const road = addressInfo.road !== undefined ? addressInfo.road + ', ' : '';
+        const road = addressInfo.road !== undefined ? `${addressInfo.road}, ` : '';
         const mainLoc = addressInfo.town || addressInfo.city || addressInfo.county || '';
         const infoAddress = `${road}${mainLoc} (${addressInfo.country})`;
-        addressResult.innerText = infoAddress;
+
+        DOMFinder.getAddressResultSpan().innerText = infoAddress;
     }
 
     // <div class="teamCard" id="team_1">
@@ -371,7 +353,6 @@ var HtmlHelper = (function () {
         return teamCard;
     }
 
-
     return {
         init: init,
         getMapDivID: getMapDivID,
@@ -381,7 +362,70 @@ var HtmlHelper = (function () {
         getNbClubsShown: getNbClubsShown,
         printClubs: printClubs,
         clearLocationInput: clearLocationInput,
-        closeSearchBox: closeSearchBox
+        closeSearchBox: switchSearchBoxVisibility
     };
+})();
 
+
+
+const DOMFinder = (function () {
+
+    function getMapDiv() {
+        return document.getElementById("mapid");
+    }
+
+    function getSearchBoxContentDiv() {
+        return document.getElementById("searchBoxContent");
+    }
+
+    function getAddressInput() {
+        return document.getElementById("inputAddress");
+    }
+
+    function getMaxClubsInput() {
+        return document.getElementById("nbShownClubs");
+    }
+
+    function getAddressResultSpan() {
+        return document.getElementById("addressResult");
+    }
+
+    function getSearchBoxTitleDiv() {
+        return document.getElementById("searchBoxTitle");
+    }
+
+    function getGeoLocMeButton() {
+        return document.getElementById("btnGeoLoc");
+    }
+
+    function getTeamsDiv() {
+        return document.getElementById("teams");
+    }
+
+    function getResultDiv() {
+        return document.getElementById("divResult");
+    }
+
+    function getCompetitionCheckboxes() {
+        return [
+            document.getElementById("chk_france_ligue1"),
+            document.getElementById("chk_spain_primeraDivision"),
+            document.getElementById("chk_germany_bundesliga"),
+            document.getElementById("chk_gb_premierLeague"),
+            document.getElementById("chk_italy_serieA")
+        ];
+    }
+
+    return {
+        getSearchBoxContentDiv: getSearchBoxContentDiv,
+        getAddressInput: getAddressInput,
+        getMaxClubsInput: getMaxClubsInput,
+        getAddressResultSpan: getAddressResultSpan,
+        getSearchBoxTitleDiv: getSearchBoxTitleDiv,
+        getGeoLocMeButton: getGeoLocMeButton,
+        getTeamsDiv: getTeamsDiv,
+        getResultDiv: getResultDiv,
+        getMapDiv: getMapDiv,
+        getCompetitionCheckboxes: getCompetitionCheckboxes
+    }
 })();

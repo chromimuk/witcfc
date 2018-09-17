@@ -36,7 +36,7 @@ var App = (function () {
 
         // load competitions scripts
         for (let competition of _competitions) {
-            LazyLoadingTools.loadScript(competition);
+            LazyLoadingTools.loadScript(competition.jsData);
         }
     }
 
@@ -88,6 +88,10 @@ var App = (function () {
             }
         });
 
+        return teamsToClubs(teams);
+    }
+
+    function teamsToClubs(teams) {
         let clubs = [];
         teams.forEach(function (team) {
             clubs.push(
@@ -100,7 +104,6 @@ var App = (function () {
                 )
             );
         });
-
         return clubs;
     }
 
